@@ -1,16 +1,16 @@
 package service;
 
 import dao.PostingDao;
-import dao.PostingDaoImp;
+import dao.PostingDaoMock;
 import java.util.List;
 import model.Posting;
 
 public class WebLogService {
 
-    private PostingDao postingDao;
+    private final PostingDao postingDao;
 
     public WebLogService() {
-        postingDao = new PostingDaoImp();
+        postingDao = new PostingDaoMock();
     }
 
     public void addPosting(Posting p) {
@@ -20,5 +20,8 @@ public class WebLogService {
     public List<Posting> getPostings() {
         return postingDao.findAll();
     }
-;
+    
+    public void addComment(Long id, String content) {
+        postingDao.find(id).addComment(content);
+    }
 }

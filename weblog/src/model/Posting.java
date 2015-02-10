@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
 import java.util.ArrayList;
@@ -11,16 +7,17 @@ import java.util.List;
 public class Posting {
 
     private Long id;
+    private Long nextCommentId = 0L;
     private String title;
     private String content;
-    private Date date;
+    private final Date date;
     private List<Comment> comments;
 
     public Posting(String title, String content) {
         this.title = title;
         this.content = content;
         this.date = new Date();
-        this.comments = new ArrayList<Comment>();
+        this.comments = new ArrayList<>();
     }
 
     public Posting(Long id, String title, String content) {
@@ -28,7 +25,12 @@ public class Posting {
         this.title = title;
         this.content = content;
         this.date = new Date();
-        this.comments = new ArrayList<Comment>();
+        this.comments = new ArrayList<>();
+    }
+    
+    public void addComment(String content) {
+        Comment comment = new Comment(nextCommentId++, content);
+        comments.add(comment);
     }
 
     public List<Comment> getComments() {

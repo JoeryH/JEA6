@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package dao;
 
 import java.util.ArrayList;
@@ -9,24 +5,22 @@ import java.util.HashMap;
 import java.util.List;
 import model.Posting;
 
-/**
- *
- * @author Administrator
- */
-public class PostingDaoImp implements PostingDao {
+public class PostingDaoMock implements PostingDao {
 
     private HashMap<Long, Posting> postings;
     private Long nextId;
 
-    public PostingDaoImp() {
+    public PostingDaoMock() {
         initWeblog();
     }
 
-    public void initWeblog() {
+    public final void initWeblog() {
 
-        postings = new HashMap<Long, Posting>();
-
-        postings.put(1L, new Posting(1L, "Title 1", "Content 1"));
+        postings = new HashMap<>();
+        Posting posting1 = new Posting(1L, "Title 1", "Content 1");
+        posting1.addComment("comment1");
+        posting1.addComment("comment2");
+        postings.put(1L, posting1);
         postings.put(2L, new Posting(2L, "Title 2", "Content 2"));
         postings.put(3L, new Posting(3L, "Title 3", "Content 3"));
         nextId = 4L;
@@ -41,14 +35,10 @@ public class PostingDaoImp implements PostingDao {
         postings.put(nextId++, p);
     }
 
-    ;
-
     @Override
     public List<Posting> findAll() {
         return new ArrayList(postings.values());
     }
-
-    ;
 
      @Override
     public Posting find(Long id) {
