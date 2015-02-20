@@ -2,8 +2,17 @@
     text-align:right;
 }
 
+.comment-link {
+    float:right;
+}
+
 .clear {
     clear: both;
+}
+
+.comment {
+    margin-left: 25px;
+    border: 2px solid;
 }
 
 .div-border {
@@ -15,6 +24,17 @@
 }
 
 h1 {
+    text-align: center;
+}
+
+table {
+    border: 1px solid black;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+th, td {
+    border: none;
     text-align: center;
 }
 

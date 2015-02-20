@@ -5,6 +5,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/style.css" />">
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script src="<c:url value="/resources/javascript/functions.js" />"></script>
         <title>My Blog</title>
     </head>
     <body>
@@ -19,26 +21,24 @@
             </div>
         </div>
 
-
         <div id="content" class="left_content">
-
             <c:forEach items="${postings}" var="posting">
                 <div class="div-border">
                     ${posting.title}<br/>
-                    ${posting.content}</br>
+                    ${posting.content}<br/>
                     Posted on ${posting.date}
+                    <div class="comment-link">
+                        <a href="#" onclick="onClickComment(${posting.id})">comment</a>
+                    </div>
+                    <!--<div class="clear"></div> -->
                 </div>
-
-                </br>
-
+                <br/>
+                <div id="comments${posting.id}"></div>
                 <c:if test="${posting.id == param.postingId}">
-                    <c:forEach items="${posting.comments}" var="comment">
-                        ${comment.content}<br/>
-                    </c:forEach>
-                    </br>
-                </c:if>
+                    <div id="comments">
 
-            </c:forEach>
-        </div>
+                    </c:if>
+                </c:forEach>
+            </div>
     </body>
 </html>

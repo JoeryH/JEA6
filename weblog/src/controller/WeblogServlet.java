@@ -1,5 +1,8 @@
 package controller;
 
+import controller.command.Command;
+import controller.command.CommandFactory;
+import controller.command.NotFound;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -7,13 +10,17 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import model.Comment;
 import model.Posting;
 import service.WebLogService;
 
-@WebServlet(name = "WeblogServlet", urlPatterns = {"/weblog", "/admin", "/admin/addPosting"})
+@WebServlet(name = "WeblogServlet", urlPatterns = {"/weblog", "/admin", "/admin/switch", "/admin/posting", "/weblog/addComment", "/comments", "/admin/deletePosting"})
 public class WeblogServlet extends HttpServlet {
     
-    private final WebLogService webLogService = new WebLogService();
+    private final WebLogService webLogService = WebLogService.instance();
+
+    //private Command url = new NotFound();
 
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -26,16 +33,14 @@ public class WeblogServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        processRequest(request, response);
+    }
+    
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         String userPath = request.getServletPath();
-                
-        if (userPath.equals("/admin")) {
-            
-        } else if (userPath.equals("/weblog")) {
-            request.setAttribute("postings", webLogService.getPostings());      
-        }
-        
-        request.getRequestDispatcher("/WEB-INF/view" + userPath + ".jsp").forward(request, response);
+        Command command = CommandFactory.instance().createCommand(userPath, request, response);
+        command.execute();
     }
 
     /**
@@ -49,15 +54,7 @@ public class WeblogServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String userPath = request.getServletPath();
         
-        if (userPath.equals("/admin/addPosting")) {
-            Posting p = new Posting(request.getParameter("title"), request.getParameter("content"));
-            webLogService.addPosting(p);
-            response.sendRedirect("/weblog/weblog");
-            return;
-        }
-        
-        request.getRequestDispatcher("/WEB-INF/view" + userPath + ".jsp").forward(request, response);
+        processRequest(request, response);
     }
 }

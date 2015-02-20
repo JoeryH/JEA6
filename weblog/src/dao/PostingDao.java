@@ -10,4 +10,6 @@ public interface PostingDao {
     List<Posting> findAll();
 
     Posting find(Long id);
+    
+    void delete(Long id);
 }

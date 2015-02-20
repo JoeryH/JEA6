@@ -47,4 +47,9 @@ public class PostingDaoMock implements PostingDao {
         }
         return postings.get(id);
     }
+
+    @Override
+    public void delete(Long id) {
+        postings.remove(id);
+    }
 }

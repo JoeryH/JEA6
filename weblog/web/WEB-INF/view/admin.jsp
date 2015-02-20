@@ -8,17 +8,76 @@
         <title>Manage blog</title>
     </head>
     <body>
-        <div class="right-link"><a href="/weblog/weblog">View My Blog</a></div>
-        <h1>My Blog Adm</h1>
+        <div class="right-link">
+            <a href="/weblog/weblog">View My Blog</a>
 
-        <form method="POST" action="admin/addPosting" class="center">
+            <c:set var="mode" value="${false}"/>
+            <c:if test="${sessionScope.mode != null}"><c:set var="mode" value="${sessionScope.mode}"/></c:if>
+
+                <form method="POST" action="admin/switch">
+                    <input type="hidden" name="mode" value="${!mode}"/>
+                <input type="submit" value="<c:if test="${mode}">Basic Mode</c:if> <c:if test="${!mode}">Advanced Mode</c:if>"/>
+                </form>
+            </div>
+            <h1>My Blog Adm</h1>
+
+            <form method="POST" action="admin/posting" class="center">
+            <c:if test="${param.editId != null}">
+                <input type="hidden" name="editId" value="${param.editId}"/>
+                <c:forEach items="${postings}" var="posting">
+                    <c:if test="${posting.id == param.editId}">
+                        <c:set var="content" value="${posting.content}"/>
+                        <c:set var="title" value="${posting.title}"/>
+                    </c:if>
+                </c:forEach>
+            </c:if>
             <label for="title">Title:</label>
-            <input type="text" name="title" id="title"><br/><br/>
+            <input type="text" name="title" id="title" value="${title}"><br/><br/>
             <label for="content">Posting:</label>
-            <textarea name="content"></textarea><br/>
-            <input type="submit" value="Add Posting">
+            <textarea name="content">${content}</textarea><br/>
+            <c:if test="${param.editId == null}">
+                <input type="submit" value="Add Posting">
+            </c:if>
+            <c:if test="${param.editId != null}">
+                <input type="submit" value="Edit Posting">
+            </c:if>
         </form>
-        
+
         <hr>
+
+        <c:if test="${mode}">
+            <table >
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Posting</th>
+                        <th>Date</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach items="${postings}" var="posting">
+                        <tr>
+                            <td>${posting.title}</td>
+                            <td>${posting.content}</td>
+                            <td>${posting.date}</td>
+                            <td>
+                                <form method="GET" action="admin?editId=${postingId}">
+                                    <input type="hidden" value="${posting.id}" name="editId"/>
+                                    <input type="submit" value="Edit"/>
+                                </form>
+                            </td>
+                            <td>
+                                <form method="POST" action="admin/deletePosting">
+                                    <input type="hidden" value="${posting.id}" name="id"/>
+                                    <input type="submit" value="Delete"/>
+                                </form>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </c:if>
     </body>
 </html>
