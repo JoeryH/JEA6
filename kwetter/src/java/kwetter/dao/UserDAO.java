@@ -13,7 +13,7 @@ public interface UserDAO {
 
     List<User> findAll();
 
-    User find(Long id);
+    User find(String name);
 
     void remove(User user);
 }

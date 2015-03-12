@@ -14,13 +14,20 @@ import javax.ejb.Startup;
 import kwetter.domain.Tweet;
 import kwetter.domain.User;
 
-@Singleton
-@Startup
+//@Singleton
+//@Startup
 public class DataStorageBean {
        
-    private List<User> users = new ArrayList();
+    private List<User> users; 
+
+    public DataStorageBean() {
+        users = new ArrayList();
+        initUsers();
+    }
+    
+    
           
-    @PostConstruct
+    //@PostConstruct
      private void initUsers() {
         User u1 = new User("Hans", "http", "geboren 1");
         User u2 = new User("Frank", "httpF", "geboren 2");
@@ -37,10 +44,10 @@ public class DataStorageBean {
         u1.addTweet(t2);
         u1.addTweet(t3);
 
-        this.create(u1);
-        this.create(u2);
-        this.create(u3);
-        this.create(u4);
+        create(u1);
+        create(u2);
+        create(u3);
+        create(u4);
     }  
       
     public int count() {
@@ -63,8 +70,13 @@ public class DataStorageBean {
         users.remove(user);
     }
 
-    public User find(Long id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public User find(String name) {
+        for (User u : users) {
+            if (u.getName().equals(name)) {
+                return u;
+            }
+        }
+        return null;
     }
     
 }

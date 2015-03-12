@@ -39,7 +39,7 @@ public class UserDAOCollectionImpl implements UserDAO {
     }
 
     @Override
-    public User find(Long id) {
-        return dsb.find(id);
+    public User find(String name) {
+        return dsb.find(name);
     }   
 }

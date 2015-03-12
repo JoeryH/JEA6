@@ -1,4 +1,4 @@
-package kwetter.service;
+package kwetter.resource;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
