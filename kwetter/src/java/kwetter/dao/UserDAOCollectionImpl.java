@@ -1,45 +1,45 @@
 package kwetter.dao;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
 import kwetter.domain.User;
 
+//@Stateless
 public class UserDAOCollectionImpl implements UserDAO {
-
-    private List<User> users;
-
+    
+    DataStorageBean dsb = new DataStorageBean();
+    
     public UserDAOCollectionImpl() {
-        users = new ArrayList();
     }
 
     @Override
     public int count() {
-        return users.size();
+        return dsb.count();
     }
 
     @Override
     public void create(User user) {
-        users.add(user);
+        dsb.create(user);
     }
 
     @Override
     public void edit(User user) {
-        throw new UnsupportedOperationException("Not supported yet.");
+       dsb.edit(user);
     }
 
     @Override
     public List<User> findAll() {
-        return new ArrayList(users);
+        return dsb.findAll();
     }
 
     @Override
     public void remove(User user) {
-        users.remove(user);
+        dsb.remove(user);
     }
 
     @Override
     public User find(Long id) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+        return dsb.find(id);
+    }   
 }
